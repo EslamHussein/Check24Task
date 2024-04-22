@@ -3,6 +3,8 @@ package com.elektrobit.check24task.product.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
@@ -18,7 +20,9 @@ class ProductsListAdapter(
     private var data: List<Product> = emptyList(),
     private var onItemClickListener: OnItemClickListener?
 ) :
-    RecyclerView.Adapter<BaseViewHolder<Product>>() {
+    RecyclerView.Adapter<BaseViewHolder<Product>>() ,Filterable{
+
+    var filtered: List<Product> = data
 
     enum class Type(value: Int) { Available(0), NotAvailable(1) }
 
@@ -138,6 +142,10 @@ class ProductsListAdapter(
 
     interface OnItemClickListener {
         fun onItemClicked(item: Product)
+    }
+
+    override fun getFilter(): Filter {
+        TODO("Not yet implemented")
     }
 
 

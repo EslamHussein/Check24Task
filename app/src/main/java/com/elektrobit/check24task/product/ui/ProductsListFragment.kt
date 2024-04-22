@@ -3,6 +3,7 @@ package com.elektrobit.check24task.product.ui
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -16,6 +17,7 @@ import com.elektrobit.check24task.product.presentation.ProductsViewModel
 import com.elektrobit.check24task.product.rp.entity.Product
 import com.elektrobit.check24task.product.rp.entity.Products
 import com.elektrobit.check24task.product.ui.adapter.ProductsListAdapter
+import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
@@ -25,6 +27,9 @@ class ProductsListFragment : Fragment(R.layout.fragment_products_list),
     private var productsRecyclerView: RecyclerView? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
     private var productsAdapter: ProductsListAdapter? = null
+    private var filterTabLayout: TabLayout? = null
+    private var tileTextView: TextView? = null
+    private var subTileTextView: TextView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -35,6 +40,9 @@ class ProductsListFragment : Fragment(R.layout.fragment_products_list),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
+        filterTabLayout = view.findViewById(R.id.filterTabLayout)
+        tileTextView = view.findViewById(R.id.products_title_text_view)
+        subTileTextView = view.findViewById(R.id.products_sub_title_text_view)
         swipeRefreshLayout?.isEnabled = true
 
         swipeRefreshLayout?.setOnRefreshListener {
@@ -55,7 +63,6 @@ class ProductsListFragment : Fragment(R.layout.fragment_products_list),
                 viewModel.state.collect {
                     when (it) {
                         is ProductsListState.Failure -> onFailure(it.failureMessage)
-                        ProductsListState.Idle -> onIdle()
                         ProductsListState.Loading -> onLoading()
                         is ProductsListState.Success -> onSuccess(it.data)
                     }
@@ -65,7 +72,14 @@ class ProductsListFragment : Fragment(R.layout.fragment_products_list),
     }
 
     private fun onSuccess(products: Products) {
-
+        filterTabLayout?.removeAllTabs()
+        products.filters.forEach { filterItem ->
+            filterTabLayout?.let {
+                it.addTab(it.newTab().setText(filterItem))
+            }
+        }
+        tileTextView?.text = products.header.headerTitle
+        subTileTextView?.text = products.header.headerDescription
         productsAdapter?.updateData(products.products)
         swipeRefreshLayout?.isRefreshing = false
         productsRecyclerView?.visibility = View.VISIBLE
@@ -74,11 +88,6 @@ class ProductsListFragment : Fragment(R.layout.fragment_products_list),
     private fun onFailure(failureMsg: String) {
         Log.d("CHECK24TASK", "ProductsListFragment#onFailure: $failureMsg");
     }
-
-    private fun onIdle() {
-
-    }
-
 
     private fun onLoading() {
         swipeRefreshLayout?.isRefreshing = true

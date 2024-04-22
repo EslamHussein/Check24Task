@@ -16,12 +16,12 @@
     </fragment>
     <fragment
         android:id="@+id/productDetailsFragment"
-        android:name="com.gymondo.presentaion.fragments.RepositoryDetailsFragment"
+        android:name="com.elektrobit.check24task.product.ui.ProductsListFragment"
         android:label="@string/product_details"
-        tools:layout="@layout/fragment_repository_details">
+        tools:layout="@layout/fragment_products_list">
         <argument
             android:name="product_id"
-            app:argType="string" />
+            app:argType="com.elektrobit.check24task.product.ui.adapter.ProductsListAdapter$Type" />
 
     </fragment>
 </navigation>
