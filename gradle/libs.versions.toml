@@ -22,6 +22,8 @@ material-icons = "1.6.6"
 compose-paging = "3.3.0-beta01"
 fragment-navigation = "2.7.7"
 swiperefreshlayout = "1.1.0-beta01"
+navSafeArgsPlugin = "2.7.7"
+kotlinPlugin = "1.8.10"
 
 
 
@@ -83,7 +85,8 @@ coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutin
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-
+safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navSafeArgsPlugin" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize",  version.ref = "kotlinPlugin"  }
 
 [bundles]
 koin = ['koin-android', 'androidx-lifecycle-viewmodel-ktx']

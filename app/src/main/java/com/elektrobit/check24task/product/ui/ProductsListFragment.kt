@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -65,6 +66,7 @@ class ProductsListFragment : Fragment(R.layout.fragment_products_list),
                         is ProductsListState.Failure -> onFailure(it.failureMessage)
                         ProductsListState.Loading -> onLoading()
                         is ProductsListState.Success -> onSuccess(it.data)
+                        ProductsListState.Idle -> {}
                     }
                 }
             }
@@ -94,6 +96,12 @@ class ProductsListFragment : Fragment(R.layout.fragment_products_list),
     }
 
     override fun onItemClicked(item: Product) {
+
+        val action =
+            ProductsListFragmentDirections.actionProductsListFragmentToProductDetailsFragment(item)
+
+        view?.findNavController()?.navigate(action)
+
 
     }
 }

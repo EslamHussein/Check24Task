@@ -16,12 +16,12 @@
     </fragment>
     <fragment
         android:id="@+id/productDetailsFragment"
-        android:name="com.elektrobit.check24task.product.ui.ProductsListFragment"
+        android:name="com.elektrobit.check24task.product.ui.ProductDetailsFragment"
         android:label="@string/product_details"
-        tools:layout="@layout/fragment_products_list">
+        tools:layout="@layout/fragment_product_details">
         <argument
-            android:name="product_id"
-            app:argType="com.elektrobit.check24task.product.ui.adapter.ProductsListAdapter$Type" />
+            android:name="product"
+            app:argType="com.elektrobit.check24task.product.rp.entity.Product" />
 
     </fragment>
 </navigation>
