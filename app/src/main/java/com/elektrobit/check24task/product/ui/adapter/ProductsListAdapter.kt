@@ -21,11 +21,10 @@ class ProductsListAdapter(
     private var data: List<Product> = emptyList(),
     private var onItemClickListener: OnItemClickListener?
 ) :
-    RecyclerView.Adapter<BaseViewHolder<Product>>() ,Filterable{
+    RecyclerView.Adapter<BaseViewHolder<Product>>() {
 
-    var filtered: List<Product> = data
 
-    enum class Type(value: Int) { Available(0), NotAvailable(1) }
+    enum class Type(value: Int) { Available(0), NotAvailable(1), Footer(2) }
 
     override fun getItemViewType(position: Int): Int {
         return data[position].getHolderType().ordinal
@@ -40,14 +39,17 @@ class ProductsListAdapter(
                     .inflate(R.layout.product_item_aviailable, parent, false)
                 return AvailableViewHolder(itemView)
             }
-
+            Type.Footer.ordinal->{
+                val itemView = LayoutInflater
+                    .from(parent.context)
+                    .inflate(R.layout.product_footer_item, parent, false)
+                return FooterViewHolder(itemView)
+            }
             else -> {
-
                 val itemView = LayoutInflater
                     .from(parent.context)
                     .inflate(R.layout.product_item_not_aviailable, parent, false)
                 return NotAvailableViewHolder(itemView)
-
             }
         }
 
@@ -62,6 +64,17 @@ class ProductsListAdapter(
 
         holder.bind(product)
 
+    }
+
+    inner class FooterViewHolder(private val view: View) : BaseViewHolder<Product>(view) {
+
+
+        override fun bind(item: Product) {
+            itemView.setOnClickListener {
+                onItemClickListener?.onItemClicked(ProductAction.OpenUrl("http://m.check24.de/rechtliche-hinweise?deviceoutput=app"))
+
+            }
+        }
     }
 
 
@@ -94,7 +107,7 @@ class ProductsListAdapter(
                 transformations(CircleCropTransformation())
             }
             itemView.setOnClickListener {
-                onItemClickListener?.onItemClicked(item)
+                onItemClickListener?.onItemClicked(ProductAction.OpenProductDetails(item))
             }
         }
     }
@@ -123,7 +136,7 @@ class ProductsListAdapter(
                 transformations(CircleCropTransformation())
             }
             itemView.setOnClickListener {
-                onItemClickListener?.onItemClicked(item)
+                onItemClickListener?.onItemClicked(ProductAction.OpenProductDetails(item))
             }
         }
     }
@@ -142,12 +155,15 @@ class ProductsListAdapter(
     }
 
     interface OnItemClickListener {
-        fun onItemClicked(item: Product)
+        fun onItemClicked(action: ProductAction)
     }
 
-    override fun getFilter(): Filter {
-        TODO("Not yet implemented")
+    sealed class ProductAction() {
+        class OpenProductDetails(val product: Product) : ProductAction()
+        class OpenUrl(val url: String) : ProductAction()
     }
+
+
 
 
 }

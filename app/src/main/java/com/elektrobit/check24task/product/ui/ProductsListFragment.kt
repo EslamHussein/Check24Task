@@ -1,5 +1,7 @@
 package com.elektrobit.check24task.product.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -15,12 +17,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.elektrobit.check24task.R
 import com.elektrobit.check24task.product.presentation.ProductsListState
 import com.elektrobit.check24task.product.presentation.ProductsViewModel
-import com.elektrobit.check24task.product.rp.entity.Product
 import com.elektrobit.check24task.product.rp.entity.Products
 import com.elektrobit.check24task.product.ui.adapter.ProductsListAdapter
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
+
 
 class ProductsListFragment : Fragment(R.layout.fragment_products_list),
     ProductsListAdapter.OnItemClickListener {
@@ -80,6 +82,9 @@ class ProductsListFragment : Fragment(R.layout.fragment_products_list),
                 it.addTab(it.newTab().setText(filterItem))
             }
         }
+        tileTextView?.visibility = View.VISIBLE
+        subTileTextView?.visibility = View.VISIBLE
+
         tileTextView?.text = products.header.headerTitle
         subTileTextView?.text = products.header.headerDescription
         productsAdapter?.updateData(products.products)
@@ -93,15 +98,26 @@ class ProductsListFragment : Fragment(R.layout.fragment_products_list),
 
     private fun onLoading() {
         swipeRefreshLayout?.isRefreshing = true
+        tileTextView?.visibility = View.GONE
+        subTileTextView?.visibility = View.GONE
     }
 
-    override fun onItemClicked(item: Product) {
 
-        val action =
-            ProductsListFragmentDirections.actionProductsListFragmentToProductDetailsFragment(item)
+    override fun onItemClicked(action: ProductsListAdapter.ProductAction) {
 
-        view?.findNavController()?.navigate(action)
-
-
+        when (action) {
+            is ProductsListAdapter.ProductAction.OpenProductDetails -> {
+                view?.findNavController()?.navigate(
+                    ProductsListFragmentDirections.actionProductsListFragmentToProductDetailsFragment(
+                        action.product
+                    )
+                )
+            }
+            is ProductsListAdapter.ProductAction.OpenUrl -> {
+                val i = Intent(Intent.ACTION_VIEW)
+                i.setData(Uri.parse(action.url))
+                startActivity(i)
+            }
+        }
     }
 }
