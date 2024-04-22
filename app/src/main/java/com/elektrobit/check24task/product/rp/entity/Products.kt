@@ -1,7 +1,10 @@
 package com.elektrobit.check24task.product.rp.entity
 
 import android.os.Parcelable
+import android.text.format.DateFormat
 import kotlinx.parcelize.Parcelize
+import java.util.Calendar
+import java.util.Locale
 
 data class Products(
     var header: Header,
@@ -37,3 +40,16 @@ data class Header(
     var headerTitle: String,
     var headerDescription: String
 )
+
+
+fun Price.toText(): String {
+    return "$value $currency"
+}
+
+fun Int.toDate(): String {
+
+    val calendar = Calendar.getInstance(Locale.ENGLISH)
+    calendar.timeInMillis = this * 1000L
+    return DateFormat.format("dd.MM.yyyy", calendar).toString()
+
+}

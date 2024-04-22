@@ -15,6 +15,7 @@ import coil.transform.CircleCropTransformation
 import com.elektrobit.check24task.R
 import com.elektrobit.check24task.product.rp.entity.Price
 import com.elektrobit.check24task.product.rp.entity.Product
+import com.elektrobit.check24task.product.rp.entity.toDate
 
 class ProductsListAdapter(
     private var data: List<Product> = emptyList(),
@@ -84,7 +85,7 @@ class ProductsListAdapter(
         override fun bind(item: Product) {
             productNameTextView.text = item.name
             productDescriptionTextView.text = item.description
-            productReleaseDataTextView.text = item.releaseDate.toString() // Format date
+            productReleaseDataTextView.text = item.releaseDate.toDate()
             priceTextView.text = item.price.toText()
             productRateRatingBar.rating = item.rating.toFloat()
 
