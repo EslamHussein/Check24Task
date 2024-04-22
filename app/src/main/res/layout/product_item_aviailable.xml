@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+
+        <ImageView
+            android:id="@+id/product_image_view"
+            android:layout_width="@dimen/product_item_image_size"
+            android:layout_height="@dimen/product_item_image_size"
+            android:contentDescription="product image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/product_name_text_view"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Product name"
+            app:layout_constraintEnd_toStartOf="@id/date_text_view"
+            app:layout_constraintStart_toEndOf="@id/product_image_view"
+            app:layout_constraintTop_toTopOf="@id/product_image_view" />
+
+        <TextView
+            android:id="@+id/date_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="31.12.2015"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/product_image_view" />
+
+
+        <TextView
+            android:id="@+id/product_description_text_view"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Product description"
+            app:layout_constraintEnd_toEndOf="@id/date_text_view"
+            app:layout_constraintStart_toStartOf="@id/product_name_text_view"
+            app:layout_constraintTop_toBottomOf="@id/product_name_text_view" />
+
+
+        <TextView
+            android:id="@+id/product_price_tile_text_view"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/price"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/product_description_text_view"
+            app:layout_constraintTop_toBottomOf="@id/product_description_text_view" />
+
+        <TextView
+            android:id="@+id/product_price_text_view"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="20 Euro"
+            app:layout_constraintStart_toEndOf="@id/product_price_tile_text_view"
+            app:layout_constraintTop_toTopOf="@id/product_price_tile_text_view" />
+
+        <RatingBar
+            android:id="@+id/product_rate_rating_bar"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:numStars="5"
+            android:rating="2.5"
+            android:stepSize="0.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/product_price_tile_text_view" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
+
